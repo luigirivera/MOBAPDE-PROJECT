@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Journal.ly</string>
+    <string name="title_activity_maps">Journal.ly</string>
+    <string name="title_activity_solo_map">Map Entry</string>
+    <string name="title_activity_vault">Vault</string>
+    <string name="title_activity_journal">Journal</string>
+    <string name="title_activity_solo_journal">Journal Entry</string>
+    <string name="passphrase_title">Enter Vault Passphrase</string>
+    <string name="save">Save</string>
+    <string name="submit">Submit</string>
+    <string name="journal">Journal</string>
+    <string name="vault">Vault</string>
+    <string name="change_pass">Change Passphrase</string>
+    <string name="wipe_vault">Wipe Vault</string>
+    <string name="wipe_journal">Wipe Journal</string>
+    <string name="delete">Delete</string>
+</resources>
