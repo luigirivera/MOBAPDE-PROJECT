@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -94,17 +95,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getJournal()
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + KEY_TITLE + ", " +
-                                    KEY_DESC + ", " +
-                                    KEY_NAME + ", " +
-                                    KEY_LAT + ", " +
-                                    KEY_LONG + ", " +
-                                    KEY_DATE + ", " + " FROM " + TABLE_JOURNAL;
+        String query = "SELECT * FROM " + TABLE_JOURNAL;
 
         Cursor data = db.rawQuery(query, null);
 
+        data.moveToFirst();
+
         return data;
-
-
     }
 }
