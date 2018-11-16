@@ -38,7 +38,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void onClick(View view){
-        DatabaseHelper.getInstance(this).addJournal()
+        //TODO: Save location
     }
 
     @Override
