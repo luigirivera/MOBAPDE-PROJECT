@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/addJournalEntry"
+        android:title="@string/add_entry" />
+
     <item
         android:id="@+id/clearJournalItem"
         android:title="@string/wipe_journal" />

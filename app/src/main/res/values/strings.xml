@@ -12,6 +12,7 @@
     <string name="vault">Vault</string>
     <string name="change_pass">Change Passphrase</string>
     <string name="wipe_vault">Wipe Vault</string>
+    <string name="add_entry">Add Entry</string>
     <string name="wipe_journal">Wipe Journal</string>
     <string name="delete">Delete</string>
 </resources>
