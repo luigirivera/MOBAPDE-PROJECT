@@ -18,11 +18,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "JOURNALLY";
 
+    private static final String TABLE_USER = "USER";
     private static final String TABLE_LOCATION = "LOCATION";
     private static final String TABLE_JOURNAL = "JOURNAL";
 
-    // FOR BOTH TABLES
+    // FOR ALL TABLES
     private static final String KEY_ID = "id";
+
+    // FOR USER
+    private static final String KEY_PASS = "passphrase";
+
+    // FOR LOCATION AND JOURNAL
     private static final String KEY_LAT = "latitude";
     private static final String KEY_LONG = "longitude";
     private static final String KEY_NAME = "name";
@@ -31,6 +37,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // FOR JOURNAL
     private static final String KEY_TITLE = "title";
     private static final String KEY_DESC = "description";
+
+    private static final String CREATE_USER = "CREATE TABLE " + TABLE_USER +
+                                                "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                                KEY_PASS + " TEXT)";
 
     private static final String CREATE_LOCATION = "CREATE TABLE " + TABLE_LOCATION +
                                                     "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -61,6 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CREATE_USER);
         db.execSQL(CREATE_LOCATION);
         db.execSQL(CREATE_JOURNAL);
     }
@@ -69,9 +80,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOCATION);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_JOURNAL);
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         onCreate(db);
     }
+
+    public boolean addLocation(String name, long lat, long longt)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_NAME, name);
+        values.put(KEY_LAT, lat);
+        values.put(KEY_LONG, longt);
+        values.put(KEY_DATE, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+        long result = db.insert(TABLE_LOCATION, null, values);
+
+        if( result == -1) return false;
+        else return true;
+    }
+
+
 
     public boolean addJournal(String title, String description, String name, long lat, long longt)
     {
@@ -90,6 +120,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if( result == -1) return false;
         else return true;
+    }
+
+
+    public Cursor getPassword()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_USER;
+
+        Cursor data = db.rawQuery(query, null);
+
+        data.moveToFirst();
+
+        return data;
+    }
+
+    public Cursor getLocations()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_LOCATION;
+
+        Cursor data = db.rawQuery(query, null);
+
+        data.moveToFirst();
+
+        return data;
     }
 
     public Cursor getJournal()
