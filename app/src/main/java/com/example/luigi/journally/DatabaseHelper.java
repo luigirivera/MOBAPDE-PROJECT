@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -59,9 +60,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static synchronized DatabaseHelper getInstance(Context context) {
 
-        // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.
-        // See this article for more information: http://bit.ly/6LRzfx
         if (dbHelper == null)
             dbHelper = new DatabaseHelper(context.getApplicationContext());
 
@@ -122,17 +120,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else return true;
     }
 
+    public void createPassword()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "CREATE TABLE IF NOT EXISTS " + TABLE_USER +
+                "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                KEY_PASS + " TEXT)";
+
+        db.execSQL(query);
+
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_PASS, "password");
+
+        db.insert(TABLE_USER, null, values);
+
+    }
+
+    public void updatePassword(String pass)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_PASS, pass);
+        db.update(TABLE_USER, values, KEY_ID + " = ?", new String[]{String.valueOf(1)});
+    }
+
 
     public Cursor getPassword()
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_USER;
+        String query = "SELECT " + KEY_PASS +" FROM " + TABLE_USER;
+        try{
+            Cursor data = db.rawQuery(query, null);
+            data.moveToFirst();
+            return data;
+        }catch(SQLiteException exception){
+            return null;
+        }
 
-        Cursor data = db.rawQuery(query, null);
 
-        data.moveToFirst();
-
-        return data;
     }
 
     public Cursor getLocations()
@@ -157,5 +186,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         data.moveToFirst();
 
         return data;
+    }
+
+    public void wipeLocations()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOCATION);
+        db.execSQL(CREATE_LOCATION);
+    }
+
+    public void wipeJournal()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_JOURNAL);
+        db.execSQL(CREATE_JOURNAL);
     }
 }

@@ -6,6 +6,8 @@
     <string name="title_activity_journal">Journal</string>
     <string name="title_activity_solo_journal">Journal Entry</string>
     <string name="passphrase_title">Enter Vault Passphrase</string>
+    <string name="change_passphrase_title">Enter New Passphrase</string>
+    <string name="incorrect_passphrase">Incorrect Passphrase</string>
     <string name="save">Save</string>
     <string name="submit">Submit</string>
     <string name="journal">Journal</string>

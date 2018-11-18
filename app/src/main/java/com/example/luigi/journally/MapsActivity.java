@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,11 +45,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         save = findViewById(R.id.saveBtn);
+
+        if(DatabaseHelper.getInstance(this).getPassword() == null)
+            DatabaseHelper.getInstance(this).createPassword();
     }
 
     public void onClick(View view) {
         //TODO: Save location
-        DatabaseHelper.getInstance(this).getJournal();
+
     }
 
     @Override
@@ -74,22 +79,30 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void openVaultDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        EditText input = new EditText(this);
+        final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         builder.setTitle(R.string.passphrase_title);
         builder.setView(input);
         builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO: Check passcode
-                startActivity(new Intent(getApplicationContext(), VaultActivity.class));
+                passOnClick(input);
             }
         });
 
         builder.create().show();
     }
 
+    private void passOnClick(EditText input)
+    {
+        Cursor data = DatabaseHelper.getInstance(this).getPassword();
 
+        if(input.getText().toString().equals(data.getString(0)))
+            startActivity(new Intent(getApplicationContext(), VaultActivity.class));
+
+        else
+            Toast.makeText(this.getApplicationContext(), R.string.incorrect_passphrase, Toast.LENGTH_LONG).show();
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
