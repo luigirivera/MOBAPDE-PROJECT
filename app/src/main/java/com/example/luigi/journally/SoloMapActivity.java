@@ -1,5 +1,7 @@
 package com.example.luigi.journally;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -19,7 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class SoloMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private int id;
+    private long id;
     private String name;
     private String timestamp;
     private double lat;
@@ -30,7 +32,7 @@ public class SoloMapActivity extends AppCompatActivity implements OnMapReadyCall
         setContentView(R.layout.activity_solo_map);
 
         Intent intent = getIntent();
-        id = intent.getIntExtra("id", 0);
+        id = intent.getLongExtra("ID", 0);
         name = intent.getStringExtra("NAME");
         timestamp = intent.getStringExtra("TIMESTAMP");
         lat = intent.getDoubleExtra("LAT", 0);
@@ -57,11 +59,34 @@ public class SoloMapActivity extends AppCompatActivity implements OnMapReadyCall
         switch(item.getItemId())
         {
             case R.id.deleteMapItem:
-                //TODO: ask if they want to delete; do action based on answer
+                deleteEntry();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void deleteEntry()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.delete_location_title);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                delete();
+            }
+        });
+
+        builder.setNegativeButton(R.string.no, null);
+
+        builder.create().show();
+    }
+
+    private void delete()
+    {
+        DatabaseHelper.getInstance(this).deleteVaultEntry(id);
+        Log.d("JOURNAL.LY", id + " Vault Entry Deleted");
+        finish();
     }
 
     @Override
@@ -71,7 +96,7 @@ public class SoloMapActivity extends AppCompatActivity implements OnMapReadyCall
         // Add a marker in Sydney and move the camera
         LatLng marker = new LatLng(lat, longt);
         mMap.addMarker(new MarkerOptions().position(marker).title(name).snippet(timestamp));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(marker));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f));
 
         Log.d("JOURNAL.LY", "Solo Map Displayed");
     }

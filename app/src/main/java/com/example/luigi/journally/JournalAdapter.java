@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,4 +57,11 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalHolder> {
 
     @Override
     public int getItemCount() { return journal.size(); }
+
+    public void updateList()
+    {
+        journal = DatabaseHelper.getInstance(journalActivity).getJournal();
+        notifyDataSetChanged();
+        Log.d("JOURNAL.LY", "Journal Data Updated");
+    }
 }

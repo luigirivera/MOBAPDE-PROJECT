@@ -2,13 +2,13 @@ package com.example.luigi.journally;
 
 public class LocationModel {
 
-    private int id;
+    private long id;
     private String name;
     private double lat;
     private double longt;
     private String timestamp;
 
-    public LocationModel(int id, String name, double lat, double longt, String timestamp)
+    public LocationModel(long id, String name, double lat, double longt, String timestamp)
     {
         this.setTimestamp(timestamp);
         this.setId(id);
@@ -41,11 +41,11 @@ public class LocationModel {
         this.longt = longt;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

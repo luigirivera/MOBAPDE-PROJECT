@@ -188,9 +188,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if(data.moveToFirst())
             {
                 do{
-                    LocationModel lM = new LocationModel();
+                    LocationModel lM = new LocationModel(data.getLong(data.getColumnIndex(KEY_ID)),
+                                                        data.getString(data.getColumnIndex(KEY_NAME)),
+                                                        data.getDouble(data.getColumnIndex(KEY_LAT)),
+                                                        data.getDouble(data.getColumnIndex(KEY_LONG)),
+                                                        data.getString(data.getColumnIndex(KEY_DATE)));
+
+                    locations.add(lM);
                 }while(data.moveToNext());
             }
+            Log.d("JOURNAL.LY", "Got " + locations.size() + " locations");
             return locations;
         }catch(SQLiteException exception){
             return null;
@@ -207,7 +214,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if(data.moveToFirst())
             {
                 do{
-                    JournalModel jM = new JournalModel(data.getInt(data.getColumnIndex(KEY_ID)),
+                    JournalModel jM = new JournalModel(data.getLong(data.getColumnIndex(KEY_ID)),
                                                         data.getString(data.getColumnIndex(KEY_TITLE)),
                                                         data.getString(data.getColumnIndex(KEY_DESC)),
                                                         data.getDouble(data.getColumnIndex(KEY_LAT)),
@@ -219,7 +226,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }while(data.moveToNext());
             }
 
-
+            Log.d("JOURNAL.LY", "Got " + journals.size() + " journals");
             return journals;
         }catch(SQLiteException exception){
             return null;
@@ -240,9 +247,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_JOURNAL);
     }
 
-    public void deleteJournalEntry(int id)
+    public void deleteJournalEntry(long id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_JOURNAL, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public void deleteVaultEntry(long id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_LOCATION, KEY_ID + " = ?", new String[]{String.valueOf(id)});
     }
 }

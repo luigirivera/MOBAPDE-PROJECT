@@ -2,6 +2,7 @@ package com.example.luigi.journally;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +33,12 @@ public class JournalActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.updateList();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
@@ -45,7 +52,7 @@ public class JournalActivity extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.addJournalEntry:
-                wipeJournal();
+                startActivity(new Intent(getApplicationContext(), AddJournalActivity.class));
                 return true;
             case R.id.clearJournalItem:
                 wipeJournal();
@@ -75,5 +82,6 @@ public class JournalActivity extends AppCompatActivity {
     {
         DatabaseHelper.getInstance(this).wipeJournal();
         Log.d("JOURNAL.LY", "Journal Wiped");
+        adapter.updateList();
     }
 }

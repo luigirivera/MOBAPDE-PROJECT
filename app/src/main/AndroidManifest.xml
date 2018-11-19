@@ -51,8 +51,13 @@
             android:label="@string/title_activity_journal" />
         <activity
             android:name=".SoloJournalActivity"
-            android:label="@string/title_activity_solo_journal">
-        </activity>
+            android:label="@string/title_activity_solo_journal" />
+        <activity
+            android:name=".AddJournalActivity"
+            android:label="@string/add_entry" />
+        <activity
+            android:name=".LocationsJournalActivity"
+            android:label="@string/add_entry" ></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,7 @@
 package com.example.luigi.journally;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +13,7 @@ import android.widget.TextView;
 
 public class SoloJournalActivity extends AppCompatActivity {
 
-    private int id;
+    private long id;
     private TextView titleTxt, coordsTxt, nameTxt, timestampTxt, descriptionTxt;
 
     @Override
@@ -28,7 +30,7 @@ public class SoloJournalActivity extends AppCompatActivity {
         descriptionTxt = findViewById(R.id.descriptionTxt);
 
 
-        id = intent.getIntExtra("ID", 0);
+        id = intent.getLongExtra("ID", 0);
 
         titleTxt.setText(intent.getStringExtra("TITLE"));
         timestampTxt.setText(intent.getStringExtra("TIMESTAMP"));
@@ -53,15 +55,33 @@ public class SoloJournalActivity extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.deleteJournalItem:
-                //TODO: ask if they want to delete; do action based on answer
+                deleteEntry();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void deleteEntry()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.delete_journal_title);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                delete();
+            }
+        });
+
+        builder.setNegativeButton(R.string.no, null);
+
+        builder.create().show();
+    }
+
     private void delete()
     {
         DatabaseHelper.getInstance(this).deleteJournalEntry(id);
+        Log.d("JOURNAL.LY", id + " Journal Entry Deleted");
+        finish();
     }
 }

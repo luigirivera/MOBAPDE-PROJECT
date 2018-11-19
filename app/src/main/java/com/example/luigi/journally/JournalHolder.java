@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class JournalHolder extends RecyclerView.ViewHolder  {
-    private int id;
+    private long id;
     private TextView title;
     private String description;
     private TextView location;
@@ -50,11 +50,11 @@ public class JournalHolder extends RecyclerView.ViewHolder  {
         this.time = time;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

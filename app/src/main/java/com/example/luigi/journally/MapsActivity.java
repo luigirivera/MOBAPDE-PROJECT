@@ -152,7 +152,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("JOURNAL.LY", "Location saved: " + address.getAddressLine(0) + " " + coords.latitude + "," + coords.longitude);
             DatabaseHelper.getInstance(this).addLocation(location,coords.latitude,coords.longitude);
         }
-        //TODO: Save location
 
     }
 

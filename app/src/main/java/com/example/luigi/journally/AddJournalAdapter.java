@@ -1,24 +1,26 @@
 package com.example.luigi.journally;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-public class LocationAdapter extends RecyclerView.Adapter<LocationHolder>{
+public class AddJournalAdapter extends RecyclerView.Adapter<LocationHolder> {
 
+    private LocationsJournalActivity locationsJournalActivity;
     private ArrayList<LocationModel> locations;
-    private VaultActivity vaultActivity;
-    public LocationAdapter(VaultActivity vaultActivity)
+    private String name;
+    private double lat;
+    private double longt;
+    public AddJournalAdapter(LocationsJournalActivity locationsJournalActivity)
     {
-        this.vaultActivity = vaultActivity;
-        locations = DatabaseHelper.getInstance(vaultActivity).getLocations();
-    }
+        this.locationsJournalActivity = locationsJournalActivity;
 
+        locations = DatabaseHelper.getInstance(locationsJournalActivity).getLocations();
+    }
     @Override
     public LocationHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
@@ -30,17 +32,13 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationHolder>{
         holder.getLayout().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(vaultActivity.getApplicationContext(), SoloMapActivity.class);
-
-                intent.putExtra("ID", holder.getId());
-                intent.putExtra("NAME", holder.getName().getText());
-                intent.putExtra("TIMESTAMP", holder.getTimestamp().getText());
-                intent.putExtra("LAT", holder.getLat());
-                intent.putExtra("LONGT", holder.getLongt());
-
-                vaultActivity.startActivity(intent);
+                name = holder.getName().getText().toString();
+                lat = holder.getLat();
+                longt = holder.getLongt();
+                locationsJournalActivity.finish();
             }
         });
+
         return holder;
     }
 
@@ -57,10 +55,17 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationHolder>{
     @Override
     public int getItemCount() { return locations.size(); }
 
-    public void updateList()
-    {
-        locations = DatabaseHelper.getInstance(vaultActivity).getLocations();
-        notifyDataSetChanged();
-        Log.d("JOURNAL.LY", "Vault Data Updated");
+
+    public String getName() {
+        return name;
+    }
+
+
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLongt() {
+        return longt;
     }
 }

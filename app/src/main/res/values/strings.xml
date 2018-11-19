@@ -10,6 +10,8 @@
     <string name="incorrect_passphrase">Incorrect Passphrase</string>
     <string name="wipe_vault_title">Are you sure you want to wipe the vault?</string>
     <string name="wipe_journal_title">Are you sure you want to wipe the journal?</string>
+    <string name="delete_location_title">Are you sure you want to delete this location?</string>
+    <string name="delete_journal_title">Are you sure you want to delete this journal entry?</string>
     <string name="save">Save</string>
     <string name="submit">Submit</string>
     <string name="yes">Yes</string>

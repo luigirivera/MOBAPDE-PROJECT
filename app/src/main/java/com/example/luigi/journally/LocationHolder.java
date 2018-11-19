@@ -1,15 +1,20 @@
 package com.example.luigi.journally;
 
+import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 public class LocationHolder extends RecyclerView.ViewHolder {
+    private long id;
     private TextView name;
     private TextView coords;
     private TextView timestamp;
     private double lat;
     private double longt;
+    private ConstraintLayout layout;
+
 
     public LocationHolder(View itemView) {
         super(itemView);
@@ -17,8 +22,9 @@ public class LocationHolder extends RecyclerView.ViewHolder {
         name = itemView.findViewById(R.id.nameTxt);
         coords = itemView.findViewById(R.id.coordsTxt);
         timestamp = itemView.findViewById(R.id.timestampTxt);
-    }
 
+        layout = itemView.findViewById(R.id.vaultRowLayout);
+    }
 
     public TextView getName() {
         return name;
@@ -58,5 +64,21 @@ public class LocationHolder extends RecyclerView.ViewHolder {
 
     public void setLongt(double longt) {
         this.longt = longt;
+    }
+
+    public ConstraintLayout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(ConstraintLayout layout) {
+        this.layout = layout;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

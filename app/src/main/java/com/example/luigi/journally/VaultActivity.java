@@ -29,10 +29,16 @@ public class VaultActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new LocationAdapter();
+        adapter = new LocationAdapter(this);
         recyclerView.setAdapter(adapter);
 
         Log.d("JOURNAL.LY", "Vault Displayed");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.updateList();
     }
 
     @Override
@@ -78,7 +84,9 @@ public class VaultActivity extends AppCompatActivity {
     private void wipe()
     {
         DatabaseHelper.getInstance(this).wipeLocations();
+
         Log.d("JOURNAL.LY", "Vault Wiped");
+        adapter.updateList();
     }
 
     private void changePass()
