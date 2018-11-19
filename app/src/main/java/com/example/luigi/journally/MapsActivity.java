@@ -58,13 +58,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         getLocationPermission();
 
-
-
         save = findViewById(R.id.saveBtn);
 
         DatabaseHelper.getInstance(this);
-
-        DatabaseHelper.getInstance(this).resetPassword();
     }
 
     private void getCurrentLocation()
@@ -154,7 +150,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Address address = list.get(0);
             String location = address.getAddressLine(0);
             Log.d("JOURNAL.LY", "Location saved: " + address.getAddressLine(0) + " " + coords.latitude + "," + coords.longitude);
-//            DatabaseHelper.getInstance(this).addLocation(location,coords.latitude,coords.longitude);
+            DatabaseHelper.getInstance(this).addLocation(location,coords.latitude,coords.longitude);
         }
         //TODO: Save location
 

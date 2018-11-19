@@ -3,15 +3,16 @@ package com.example.luigi.journally;
 
 public class JournalModel {
 
-    private long id;
+    private int id;
     private String title;
     private String description;
     private String locationCoordinates;
     private String locationName;
     private String timestamp;
 
-    public JournalModel(String title, String description, double lat, double longt, String locationName, String timestamp)
+    public JournalModel(int id, String title, String description, double lat, double longt, String locationName, String timestamp)
     {
+        this.setId(id);
         this.setTimestamp(timestamp);
         this.setTitle(title);
         this.setDescription(description);
@@ -52,11 +53,11 @@ public class JournalModel {
         this.locationName = locationName;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

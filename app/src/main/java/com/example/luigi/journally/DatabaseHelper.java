@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -191,15 +192,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getJournal()
+    public ArrayList<JournalModel> getJournal()
     {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_JOURNAL;
-
+        ArrayList<JournalModel> journals = new ArrayList<JournalModel>();
         try{
             Cursor data = db.rawQuery(query, null);
-            data.moveToFirst();
-            return data;
+            if(data.moveToFirst())
+            {
+                do{
+                    JournalModel jM = new JournalModel(data.getInt(data.getColumnIndex(KEY_ID)),
+                                                        data.getString(data.getColumnIndex(KEY_TITLE)),
+                                                        data.getString(data.getColumnIndex(KEY_DESC)),
+                                                        data.getDouble(data.getColumnIndex(KEY_LAT)),
+                                                        data.getDouble(data.getColumnIndex(KEY_LONG)),
+                                                        data.getString(data.getColumnIndex(KEY_NAME)),
+                                                        data.getString(data.getColumnIndex(KEY_DATE)));
+
+                    journals.add(jM);
+                }while(data.moveToNext());
+            }
+
+
+            return journals;
         }catch(SQLiteException exception){
             return null;
         }

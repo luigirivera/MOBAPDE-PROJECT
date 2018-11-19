@@ -25,7 +25,7 @@ public class JournalActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new JournalAdapter();
+        adapter = new JournalAdapter(this);
         recyclerView.setAdapter(adapter);
 
         Log.d("JOURNAL.LY", "Journal Displayed");
