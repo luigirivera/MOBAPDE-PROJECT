@@ -4,11 +4,11 @@ public class LocationModel {
 
     private long id;
     private String name;
-    private long lat;
-    private long longt;
+    private double lat;
+    private double longt;
     private String timestamp;
 
-    public LocationModel(long id, String name, long lat, long longt, String timestamp)
+    public LocationModel(long id, String name, double lat, double longt, String timestamp)
     {
         this.setTimestamp(timestamp);
         this.setId(id);
@@ -25,19 +25,19 @@ public class LocationModel {
         this.name = name;
     }
 
-    public long getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(long lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public long getLongt() {
+    public double getLongt() {
         return longt;
     }
 
-    public void setLongt(long longt) {
+    public void setLongt(double longt) {
         this.longt = longt;
     }
 

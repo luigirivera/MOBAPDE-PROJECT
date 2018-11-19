@@ -1,9 +1,12 @@
 package com.example.luigi.journally;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,6 +27,8 @@ public class JournalActivity extends AppCompatActivity {
 
         adapter = new JournalAdapter();
         recyclerView.setAdapter(adapter);
+
+        Log.d("JOURNAL.LY", "Journal Displayed");
     }
 
     @Override
@@ -39,11 +44,36 @@ public class JournalActivity extends AppCompatActivity {
     {
         switch(item.getItemId())
         {
+            case R.id.addJournalEntry:
+                //TODO: new activity to save
+                return true;
             case R.id.clearJournalItem:
-                //TODO: ask if they want to clear; do action based on answer
+                wipeJournal();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void wipeJournal()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.wipe_journal_title);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                wipe();
+            }
+        });
+
+        builder.setNegativeButton(R.string.no, null);
+
+        builder.create().show();
+    }
+
+    private void wipe()
+    {
+        DatabaseHelper.getInstance(this).wipeJournal();
+        Log.d("JOURNAL.LY", "Journal Wiped");
     }
 }

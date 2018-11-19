@@ -10,7 +10,7 @@ public class JournalModel {
     private String locationName;
     private String timestamp;
 
-    public JournalModel(String title, String description, long lat, long longt, String locationName, String timestamp)
+    public JournalModel(String title, String description, double lat, double longt, String locationName, String timestamp)
     {
         this.setTimestamp(timestamp);
         this.setTitle(title);

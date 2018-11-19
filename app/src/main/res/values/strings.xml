@@ -8,8 +8,12 @@
     <string name="passphrase_title">Enter Vault Passphrase</string>
     <string name="change_passphrase_title">Enter New Passphrase</string>
     <string name="incorrect_passphrase">Incorrect Passphrase</string>
+    <string name="wipe_vault_title">Are you sure you want to wipe the vault?</string>
+    <string name="wipe_journal_title">Are you sure you want to wipe the journal?</string>
     <string name="save">Save</string>
     <string name="submit">Submit</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="journal">Journal</string>
     <string name="vault">Vault</string>
     <string name="change_pass">Change Passphrase</string>

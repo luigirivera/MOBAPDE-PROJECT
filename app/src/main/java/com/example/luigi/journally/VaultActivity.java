@@ -2,6 +2,7 @@ package com.example.luigi.journally;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,8 @@ public class VaultActivity extends AppCompatActivity {
 
         adapter = new LocationAdapter();
         recyclerView.setAdapter(adapter);
+
+        Log.d("JOURNAL.LY", "Vault Displayed");
     }
 
     @Override
@@ -49,11 +52,33 @@ public class VaultActivity extends AppCompatActivity {
                 changePass();
                 return true;
             case R.id.clearVaultItem:
-                //TODO: ask if they want to clear; do action based on answer
+                clearVault();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void clearVault()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.wipe_vault_title);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                wipe();
+            }
+        });
+
+        builder.setNegativeButton(R.string.no, null);
+
+        builder.create().show();
+    }
+
+    private void wipe()
+    {
+        DatabaseHelper.getInstance(this).wipeLocations();
+        Log.d("JOURNAL.LY", "Vault Wiped");
     }
 
     private void changePass()

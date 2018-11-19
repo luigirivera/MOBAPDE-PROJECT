@@ -1,17 +1,38 @@
 package com.example.luigi.journally;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class SoloJournalActivity extends AppCompatActivity {
+
+    private int id;
+    private String title;
+    private String coords;
+    private String time;
+    private String name;
+    private TextView titleTxt, coordsTxt, nameTxt, timestampTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solo_journal);
+
+        Intent intent = getIntent();
+        id = intent.getIntExtra("ID", 0);
+        title = intent.getStringExtra("TITLE");
+        coords = intent.getStringExtra("COORDS");
+        time = intent.getStringExtra("TIMESTAMP");
+        name = intent.getStringExtra("NAME");
+
+
+
+        Log.d("JOURNAL.LY", "Solo Journal Displayed");
     }
 
     @Override

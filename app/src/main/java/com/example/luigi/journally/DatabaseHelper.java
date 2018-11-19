@@ -124,11 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "CREATE TABLE IF NOT EXISTS " + TABLE_USER +
-                "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                KEY_PASS + " TEXT)";
-
-        db.execSQL(query);
+        db.execSQL(CREATE_USER);
 
         ContentValues values = new ContentValues();
 
@@ -160,8 +156,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }catch(SQLiteException exception){
             return null;
         }
+    }
 
+    public void resetPassword()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+
+        String query = "CREATE TABLE IF NOT EXISTS " + TABLE_USER +
+                "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                KEY_PASS + " TEXT)";
+
+        db.execSQL(query);
+
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_PASS, "password");
+
+        db.insert(TABLE_USER, null, values);
     }
 
     public Cursor getLocations()
@@ -169,11 +182,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_LOCATION;
 
-        Cursor data = db.rawQuery(query, null);
-
-        data.moveToFirst();
-
-        return data;
+        try{
+            Cursor data = db.rawQuery(query, null);
+            data.moveToFirst();
+            return data;
+        }catch(SQLiteException exception){
+            return null;
+        }
     }
 
     public Cursor getJournal()
@@ -181,11 +196,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_JOURNAL;
 
-        Cursor data = db.rawQuery(query, null);
-
-        data.moveToFirst();
-
-        return data;
+        try{
+            Cursor data = db.rawQuery(query, null);
+            data.moveToFirst();
+            return data;
+        }catch(SQLiteException exception){
+            return null;
+        }
     }
 
     public void wipeLocations()
