@@ -35,8 +35,8 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalHolder> {
                 intent.putExtra("ID", holder.getId());
                 intent.putExtra("TITLE", holder.getTitle().getText());
                 intent.putExtra("TIMESTAMP", holder.getTime().getText());
-                intent.putExtra("NAME", holder.getName());
-                intent.putExtra("COORDS", holder.getLocation().getText());
+                intent.putExtra("NAME", holder.getLocation().getText().toString());
+                intent.putExtra("COORDS", holder.getCoords());
                 intent.putExtra("DESC", holder.getDescription());
 
                 journalActivity.startActivity(intent);
@@ -50,8 +50,8 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalHolder> {
         journalHolder.setId(journal.get(i).getId());
         journalHolder.getTitle().setText(journal.get(i).getTitle());
         journalHolder.setDescription(journal.get(i).getDescription());
-        journalHolder.getLocation().setText(journal.get(i).getLocationCoordinates());
-        journalHolder.setName(journal.get(i).getLocationName());
+        journalHolder.getLocation().setText(journal.get(i).getLocationName());
+        journalHolder.setCoords(journal.get(i).getLocationCoordinates());
         journalHolder.getTime().setText(journal.get(i).getTimestamp());
     }
 

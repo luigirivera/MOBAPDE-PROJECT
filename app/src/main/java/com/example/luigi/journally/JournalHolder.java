@@ -10,7 +10,7 @@ public class JournalHolder extends RecyclerView.ViewHolder  {
     private TextView title;
     private String description;
     private TextView location;
-    private String name;
+    private String coords;
     private TextView time;
 
     private ConstraintLayout layout;
@@ -66,12 +66,12 @@ public class JournalHolder extends RecyclerView.ViewHolder  {
         this.description = description;
     }
 
-    public String getName() {
-        return name;
+    public String getCoords() {
+        return coords;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCoords(String coords) {
+        this.coords = coords;
     }
 
     public ConstraintLayout getLayout() {

@@ -44,7 +44,8 @@ public class AddJournalActivity extends AppCompatActivity {
     {
         if(!title.getText().toString().isEmpty() && !entry.getText().toString().isEmpty() && lat != null  && longt != null && name != null)
             DatabaseHelper.getInstance(this).addJournal(title.getText().toString(), entry.getText().toString(), name, lat, longt);
-
+        else
+            Toast.makeText(this.getApplicationContext(), R.string.invalid_inputs, Toast.LENGTH_LONG).show();
         finish();
     }
 
