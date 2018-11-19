@@ -7,7 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,6 +39,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -43,6 +51,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Boolean locationPerms = false;
     private final int LOCATION_PERMISSION_REQUEST_CODE = 1698;
     private FusedLocationProviderClient fusedLocationProviderClient;
+    private LatLng coords;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +83,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         {
                             Location location = (Location) task.getResult();
                             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+                            coords = latlng;
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15f));
                         }
                     }
@@ -87,6 +98,31 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                coords = new LatLng(location.getLatitude(), location.getLongitude());
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0, locationListener);
     }
 
     private void getLocationPermission()
@@ -106,6 +142,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void onClick(View view) {
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> list = new ArrayList<>();
+
+        try {
+            list = geocoder.getFromLocation(coords.latitude,coords.longitude,1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(list.size() > 0)
+        {
+            Address address = list.get(0);
+            String location = address.getAddressLine(0);
+
+//            DatabaseHelper.getInstance(this).addLocation(location,coords.latitude,coords.longitude);
+        }
         //TODO: Save location
 
     }
@@ -171,16 +223,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-//        mMap.setMyLocationEnabled(true);
         if(locationPerms)
         {
             getCurrentLocation();
             mMap.setMyLocationEnabled(true);
         }
-
-//        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

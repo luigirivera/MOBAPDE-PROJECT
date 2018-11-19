@@ -46,13 +46,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_LOCATION = "CREATE TABLE " + TABLE_LOCATION +
                                                     "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                                     KEY_NAME + " TEXT, " + KEY_DATE + " DATETIME, " +
-                                                    KEY_LAT + " INTEGER, " + KEY_LONG + " INTEGER)";
+                                                    KEY_LAT + " REAL, " + KEY_LONG + " REAL)";
 
     private static final String CREATE_JOURNAL = "CREATE TABLE " + TABLE_JOURNAL +
                                                     "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                                     KEY_TITLE + " TEXT, " + KEY_DESC + " TEXT, " +
                                                     KEY_NAME + " TEXT, " + KEY_DATE + " DATETIME, " +
-                                                    KEY_LAT + " INTEGER, " + KEY_LONG + " INTEGER)";
+                                                    KEY_LAT + " REAL, " + KEY_LONG + " REAL)";
     private DatabaseHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -82,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addLocation(String name, long lat, long longt)
+    public boolean addLocation(String name, double lat, double longt)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -101,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    public boolean addJournal(String title, String description, String name, long lat, long longt)
+    public boolean addJournal(String title, String description, String name, double lat, double longt)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
