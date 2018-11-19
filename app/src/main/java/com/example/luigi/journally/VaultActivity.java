@@ -107,7 +107,7 @@ public class VaultActivity extends AppCompatActivity {
 
     private void oldPass(EditText oldpass)
     {
-        if(oldpass.getText().toString().equals(DatabaseHelper.getInstance(this).getPassword().getString(0))){
+        if(oldpass.getText().toString().equals(DatabaseHelper.getInstance(this).getPassword())){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             final EditText newpass = new EditText(this);
             newpass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);

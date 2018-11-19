@@ -3,6 +3,7 @@ package com.example.luigi.journally;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -121,20 +122,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else return true;
     }
 
-    public void createPassword()
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        db.execSQL(CREATE_USER);
-
-        ContentValues values = new ContentValues();
-
-        values.put(KEY_PASS, "password");
-
-        db.insert(TABLE_USER, null, values);
-
-    }
-
     public void updatePassword(String pass)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -146,20 +133,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public Cursor getPassword()
+    public String getPassword()
     {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + KEY_PASS +" FROM " + TABLE_USER;
         try{
             Cursor data = db.rawQuery(query, null);
             data.moveToFirst();
-            return data;
+            return data.getString(data.getColumnIndex(KEY_PASS));
         }catch(SQLiteException exception){
+            return null;
+        }catch(CursorIndexOutOfBoundsException exception){
             return null;
         }
     }
 
-    public void resetPassword()
+    public void resetPassword(String pass)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -173,7 +162,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(KEY_PASS, "password");
+        values.put(KEY_PASS, pass);
 
         db.insert(TABLE_USER, null, values);
     }

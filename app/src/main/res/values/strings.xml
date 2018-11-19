@@ -24,4 +24,5 @@
     <string name="wipe_journal">Wipe Journal</string>
     <string name="delete">Delete</string>
     <string name="invalid_inputs">Some inputs are invalid. Please check again</string>
+    <string name="new_passphrase_title">Enter New Vault Passphrase</string>
 </resources>

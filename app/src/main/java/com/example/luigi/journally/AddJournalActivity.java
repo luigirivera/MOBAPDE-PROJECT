@@ -43,10 +43,13 @@ public class AddJournalActivity extends AppCompatActivity {
     public void save(View v)
     {
         if(!title.getText().toString().isEmpty() && !entry.getText().toString().isEmpty() && lat != null  && longt != null && name != null)
+        {
             DatabaseHelper.getInstance(this).addJournal(title.getText().toString(), entry.getText().toString(), name, lat, longt);
+            finish();
+        }
         else
             Toast.makeText(this.getApplicationContext(), R.string.invalid_inputs, Toast.LENGTH_LONG).show();
-        finish();
+
     }
 
     public void setLocation(View v)
@@ -68,9 +71,8 @@ public class AddJournalActivity extends AppCompatActivity {
 
     private void passOnClick(EditText input)
     {
-        Cursor data = DatabaseHelper.getInstance(this).getPassword();
 
-        if(input.getText().toString().equals(data.getString(0)))
+        if(input.getText().toString().equals(DatabaseHelper.getInstance(this).getPassword()))
             startActivity(new Intent(getApplicationContext(), LocationsJournalActivity.class));
 
         else
