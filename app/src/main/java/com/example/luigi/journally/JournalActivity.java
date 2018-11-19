@@ -45,7 +45,7 @@ public class JournalActivity extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.addJournalEntry:
-                //TODO: new activity to save
+                wipeJournal();
                 return true;
             case R.id.clearJournalItem:
                 wipeJournal();
