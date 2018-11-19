@@ -178,15 +178,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_USER, null, values);
     }
 
-    public Cursor getLocations()
+    public ArrayList<LocationModel> getLocations()
     {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_LOCATION;
-
+        ArrayList<LocationModel> locations = new ArrayList<LocationModel>();
         try{
             Cursor data = db.rawQuery(query, null);
-            data.moveToFirst();
-            return data;
+            if(data.moveToFirst())
+            {
+                do{
+                    LocationModel lM = new LocationModel();
+                }while(data.moveToNext());
+            }
+            return locations;
         }catch(SQLiteException exception){
             return null;
         }
@@ -233,5 +238,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_JOURNAL);
         db.execSQL(CREATE_JOURNAL);
+    }
+
+    public void deleteJournalEntry(int id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_JOURNAL, KEY_ID + " = ?", new String[]{String.valueOf(id)});
     }
 }

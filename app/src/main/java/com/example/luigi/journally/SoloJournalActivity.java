@@ -59,4 +59,9 @@ public class SoloJournalActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void delete()
+    {
+        DatabaseHelper.getInstance(this).deleteJournalEntry(id);
+    }
 }
