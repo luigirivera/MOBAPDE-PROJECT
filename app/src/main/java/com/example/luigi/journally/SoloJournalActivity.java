@@ -14,7 +14,7 @@ import android.widget.TextView;
 public class SoloJournalActivity extends AppCompatActivity {
 
     private long id;
-    private TextView titleTxt, coordsTxt, nameTxt, timestampTxt, descriptionTxt;
+    private TextView titleTxt, nameTxt, timestampTxt, descriptionTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,6 @@ public class SoloJournalActivity extends AppCompatActivity {
         titleTxt = findViewById(R.id.titleTxt);
         timestampTxt = findViewById(R.id.timestampTxt);
         nameTxt = findViewById(R.id.nameTxt);
-        coordsTxt = findViewById(R.id.coordsTxt);
         descriptionTxt = findViewById(R.id.descriptionTxt);
 
 
@@ -35,7 +34,6 @@ public class SoloJournalActivity extends AppCompatActivity {
         titleTxt.setText(intent.getStringExtra("TITLE"));
         timestampTxt.setText(intent.getStringExtra("TIMESTAMP"));
         nameTxt.setText(intent.getStringExtra("NAME"));
-        coordsTxt.setText(intent.getStringExtra("COORDS"));
         descriptionTxt.setText(intent.getStringExtra("DESC"));
 
         Log.d("JOURNAL.LY", "Solo Journal Displayed");

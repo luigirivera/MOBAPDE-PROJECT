@@ -192,9 +192,50 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.vaultItem:
                 openVaultDialog();
                 return true;
+            case R.id.resetItem:
+                resetEverything();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void resetEverything()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.reset_passphrase_title);
+        builder.setMessage(R.string.reset_passphrase_message);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                reset();
+            }
+        });
+
+        builder.setNegativeButton(R.string.no, null);
+
+        builder.create().show();
+    }
+
+    private void reset()
+    {
+        DatabaseHelper.getInstance(this).wipeLocations();
+        DatabaseHelper.getInstance(this).wipeJournal();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setTitle(R.string.new_passphrase_title);
+        builder.setView(input);
+        builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                createPass(input.getText().toString());
+            }
+        });
+
+        builder.create().show();
+
     }
 
 

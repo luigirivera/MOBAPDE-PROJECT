@@ -93,9 +93,8 @@ public class SoloMapActivity extends AppCompatActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
         LatLng marker = new LatLng(lat, longt);
-        mMap.addMarker(new MarkerOptions().position(marker).title(name).snippet(timestamp));
+        mMap.addMarker(new MarkerOptions().position(marker).title(name).snippet("(" + lat + ", " + longt + ")"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f));
 
         Log.d("JOURNAL.LY", "Solo Map Displayed");

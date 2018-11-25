@@ -34,7 +34,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationHolder>{
 
                 intent.putExtra("ID", holder.getId());
                 intent.putExtra("NAME", holder.getName().getText());
-                intent.putExtra("TIMESTAMP", holder.getTimestamp().getText());
                 intent.putExtra("LAT", holder.getLat());
                 intent.putExtra("LONGT", holder.getLongt());
 
@@ -48,7 +47,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationHolder>{
     public void onBindViewHolder(LocationHolder locationHolder, int i) {
         locationHolder.setId(locations.get(i).getId());
         locationHolder.getName().setText(locations.get(i).getName());
-        locationHolder.getCoords().setText("("+ locations.get(i).getLat() + ", " + locations.get(i).getLongt() +")");
         locationHolder.getTimestamp().setText(locations.get(i).getTimestamp());
         locationHolder.setLat(locations.get(i).getLat());
         locationHolder.setLongt(locations.get(i).getLongt());

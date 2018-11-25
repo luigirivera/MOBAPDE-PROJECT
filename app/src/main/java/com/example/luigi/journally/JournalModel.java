@@ -16,7 +16,6 @@ public class JournalModel {
         this.setTimestamp(timestamp);
         this.setTitle(title);
         this.setDescription(description);
-        this.setLocationCoordinates("(" + lat + ", " + longt + ")");
         this.setLocationName(locationName);
 
     }

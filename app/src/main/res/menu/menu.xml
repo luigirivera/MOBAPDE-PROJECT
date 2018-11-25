@@ -9,4 +9,7 @@
     <item
         android:id="@+id/vaultItem"
         android:title="@string/vault" />
+    <item
+        android:id="@+id/resetItem"
+        android:title="@string/reset" />
 </menu>
