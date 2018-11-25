@@ -7,9 +7,11 @@
     <string name="title_activity_solo_journal">Journal Entry</string>
     <string name="passphrase_title">Enter Vault Passphrase</string>
     <string name="change_passphrase_title">Enter New Passphrase</string>
+    <string name="confirm_new_pass">Confirm New Passphrase</string>
     <string name="reset_passphrase_title">Reset Passphrase</string>
     <string name="reset_passphrase_message">Resetting the passphrase will wipe the vault and journal. Do you want to proceed?</string>
     <string name="incorrect_passphrase">Incorrect Passphrase</string>
+    <string name="unmatch_passphrase">Passphrases do not match</string>
     <string name="wipe_vault_title">Are you sure you want to wipe the vault?</string>
     <string name="wipe_journal_title">Are you sure you want to wipe the journal?</string>
     <string name="delete_location_title">Are you sure you want to delete this location?</string>
@@ -28,4 +30,5 @@
     <string name="delete">Delete</string>
     <string name="invalid_inputs">Some inputs are invalid. Please check again</string>
     <string name="new_passphrase_title">Enter New Vault Passphrase</string>
+    <string name="passphrase_change_success">Passphrase change success</string>
 </resources>

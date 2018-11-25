@@ -107,7 +107,9 @@ public class VaultActivity extends AppCompatActivity {
 
     private void oldPass(EditText oldpass)
     {
-        if(oldpass.getText().toString().equals(DatabaseHelper.getInstance(this).getPassword())){
+        String hash = DatabaseHelper.getInstance(this).hash(oldpass.getText().toString());
+        String pass = DatabaseHelper.getInstance(this).getPassword();
+        if(hash.equals(pass)){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             final EditText newpass = new EditText(this);
             newpass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -116,7 +118,7 @@ public class VaultActivity extends AppCompatActivity {
             builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    newPass(newpass);
+                    newPass(newpass.getText().toString());
                 }
             });
 
@@ -126,8 +128,32 @@ public class VaultActivity extends AppCompatActivity {
             Toast.makeText(this.getApplicationContext(), R.string.incorrect_passphrase, Toast.LENGTH_LONG).show();
     }
 
-    private void newPass(EditText newPass)
+    private void newPass(final String newPass)
     {
-        DatabaseHelper.getInstance(this).updatePassword(newPass.getText().toString());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final EditText confirmPass = new EditText(this);
+        confirmPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setTitle(R.string.confirm_new_pass);
+        builder.setView(confirmPass);
+        builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                confirmPass(newPass, confirmPass.getText().toString());
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private void confirmPass(String newPass, String confirmPass)
+    {
+        if(newPass.equals(confirmPass))
+        {
+            DatabaseHelper.getInstance(this).updatePassword(newPass);
+            Toast.makeText(this.getApplicationContext(), R.string.passphrase_change_success, Toast.LENGTH_LONG).show();
+        }
+
+        else
+            Toast.makeText(this.getApplicationContext(), R.string.unmatch_passphrase, Toast.LENGTH_LONG).show();
     }
 }

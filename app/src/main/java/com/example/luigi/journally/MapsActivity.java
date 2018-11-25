@@ -61,21 +61,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         save = findViewById(R.id.saveBtn);
 
         if(DatabaseHelper.getInstance(this).getPassword() == null)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            final EditText input = new EditText(this);
-            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            builder.setTitle(R.string.new_passphrase_title);
-            builder.setView(input);
-            builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    createPass(input.getText().toString());
-                }
-            });
-
-            builder.create().show();
-        }
+            reset();
     }
 
     private void createPass(String pass)
@@ -257,8 +243,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void passOnClick(EditText input)
     {
-
-        if(input.getText().toString().equals(DatabaseHelper.getInstance(this).getPassword()))
+        String hash = DatabaseHelper.getInstance(this).hash(input.getText().toString());
+        String pass = DatabaseHelper.getInstance(this).getPassword();
+        if(hash.equals(pass))
             startActivity(new Intent(getApplicationContext(), VaultActivity.class));
 
         else

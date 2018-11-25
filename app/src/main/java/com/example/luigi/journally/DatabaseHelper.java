@@ -7,11 +7,23 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper dbHelper;
@@ -128,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(KEY_PASS, pass);
+        values.put(KEY_PASS, hash(pass));
         db.update(TABLE_USER, values, KEY_ID + " = ?", new String[]{String.valueOf(1)});
     }
 
@@ -162,7 +174,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(KEY_PASS, pass);
+        values.put(KEY_PASS, hash(pass));
 
         db.insert(TABLE_USER, null, values);
     }
@@ -222,6 +234,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void wipePassword()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+    }
+
     public void wipeLocations()
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -246,5 +264,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_LOCATION, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public String hash(String pass)
+    {
+        MessageDigest md;
+        byte[] sha1hash = new byte[40];;
+        try {
+            md = MessageDigest.getInstance("SHA-1");
+            md.update(pass.getBytes("iso-8859-1"), 0, pass.length());
+            sha1hash = md.digest();
+            Log.d("JOURNAL.LY", "hash: " + convertToHex(sha1hash));
+
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return convertToHex(sha1hash);
+    }
+
+    private String convertToHex(byte[] data) {
+        StringBuffer buf = new StringBuffer();
+        for (int i = 0; i < data.length; i++) {
+            int halfbyte = (data[i] >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do {
+                if ((0 <= halfbyte) && (halfbyte <= 9))
+                    buf.append((char) ('0' + halfbyte));
+                else
+                    buf.append((char) ('a' + (halfbyte - 10)));
+                halfbyte = data[i] & 0x0F;
+            } while(two_halfs++ < 1);
+        }
+        return buf.toString();
     }
 }

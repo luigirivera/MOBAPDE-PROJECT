@@ -71,8 +71,9 @@ public class AddJournalActivity extends AppCompatActivity {
 
     private void passOnClick(EditText input)
     {
-
-        if(input.getText().toString().equals(DatabaseHelper.getInstance(this).getPassword()))
+        String hash = DatabaseHelper.getInstance(this).hash(input.getText().toString());
+        String pass = DatabaseHelper.getInstance(this).getPassword();
+        if(hash.equals(pass))
             startActivity(new Intent(getApplicationContext(), LocationsJournalActivity.class));
 
         else
